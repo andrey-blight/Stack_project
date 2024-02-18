@@ -3,6 +3,7 @@ project(Stack_project)
 set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCE_FILES main.cpp)
+include_directories(src)
 add_executable(stack_run ${SOURCE_FILES})
 add_subdirectory(src)
 
