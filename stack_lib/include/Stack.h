@@ -1,14 +1,14 @@
 #ifndef STACK_LIBRARY_H
 #define STACK_LIBRARY_H
 
-
+#include <stdexcept>
 
 namespace stack_namespace {
 
     template<class Type>
     class Stack {
     private:
-        unsigned long long index{};
+        long long index{};
         Type *arr;
         unsigned long long MAX_SIZE{};
 
@@ -53,7 +53,7 @@ namespace stack_namespace {
     Stack<Type>::Stack() {
         MAX_SIZE = 100;
         arr = new Type(MAX_SIZE);
-        index = 0;
+        index = -1;
     }
 
     template<class Type>
@@ -128,14 +128,17 @@ namespace stack_namespace {
 
     template<class Type>
     void Stack<Type>::pop() {
-        if (index == 0) {
-            return;
+        if (index == -1) {
+            throw std::invalid_argument("Delete element from empty stack");
         }
         --index;
     }
 
     template<class Type>
     Type Stack<Type>::top() {
+        if (index == -1) {
+            throw std::invalid_argument("Get element from empty stack");
+        }
         return arr[index];
     }
 
