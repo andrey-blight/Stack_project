@@ -45,9 +45,15 @@ TEST(Long_arithmetic, create_using_eq) {
 }
 
 TEST(Long_arithmetic, create_from_another_stack_rv) {
-    Stack<int> &&first;
-    first.push(1);
-    Stack<int> second(first);
+    Stack<int> second{Stack<int>()};
+    second.push(1);
+    EXPECT_EQ(second.top(), 1);
+}
+
+TEST(Long_arithmetic, create_from_eq_rv) {
+    Stack<int> second;
+    second = Stack<int>();
+    second.push(1);
     EXPECT_EQ(second.top(), 1);
 }
 
