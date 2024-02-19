@@ -98,9 +98,6 @@ namespace stack_namespace {
 
     template<class Type>
     Stack<Type> &Stack<Type>::operator=(Stack<Type> &&other) noexcept {
-        if (this == &other) {
-            return *this;
-        }
         MAX_SIZE = other.MAX_SIZE;
         index = other.index;
 
