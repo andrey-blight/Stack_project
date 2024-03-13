@@ -19,11 +19,11 @@ namespace stack_namespace {
 
         ~Stack();
 
-        Stack(Stack const &other);
+        Stack(const Stack &other);
 
         Stack(Stack &&other) noexcept;
 
-        Stack &operator=(Stack const &other);
+        Stack &operator=(const Stack &other);
 
         Stack &operator=(Stack &&other) noexcept;
 

@@ -1,10 +1,8 @@
 #include "include/Stack.h"
-#include <iostream>
+#include "emulator.h"
 
-int main() {
-    stack_namespace::Stack<int> stack;
-    stack.push(4);
-    stack.push(5);
-    stack.pop();
-    std::cout << stack.top();
+
+int main(int argc, char *argv[]) {
+    std::string filename = argv[1];
+    start_program(filename);
 }
