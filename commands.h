@@ -226,4 +226,115 @@ public:
     }
 };
 
+class JmpCommand : public BaseCommand {
+private:
+    CommandName name = CommandName::JMP;
+    int jump_index = -1;
+public:
+    void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
+
+    void run_command(stack_namespace::Stack<int> &stack) const override {};
+
+    static std::pair<int, int> get_first_second(stack_namespace::Stack<int> &stack) {
+        int first_val = stack.top();
+        stack.pop();
+        int second_val = stack.top();
+        stack.push(first_val);
+        std::pair<int, int> f_s = {first_val, second_val};
+        return f_s;
+    }
+
+    virtual int get_index(stack_namespace::Stack<int> &stack) const {
+        return jump_index;
+    }
+
+    [[nodiscard]] CommandName get_name() const override {
+        return name;
+    }
+};
+
+class JeqCommand : public JmpCommand {
+private:
+    CommandName name = CommandName::JEQ;
+    int jump_index = -1;
+public:
+    int get_index(stack_namespace::Stack<int> &stack) const override {
+        std::pair<int, int> f_s = get_first_second(stack);
+        if (f_s.first == f_s.second) {
+            return jump_index;
+        }
+        return -1;
+    }
+};
+
+class JneCommand : public JmpCommand {
+private:
+    CommandName name = CommandName::JNE;
+    int jump_index = -1;
+public:
+    int get_index(stack_namespace::Stack<int> &stack) const override {
+        std::pair<int, int> f_s = get_first_second(stack);
+        if (f_s.first != f_s.second) {
+            return jump_index;
+        }
+        return -1;
+    }
+};
+
+class JaCommand : public JmpCommand {
+private:
+    CommandName name = CommandName::JA;
+    int jump_index = -1;
+public:
+    int get_index(stack_namespace::Stack<int> &stack) const override {
+        std::pair<int, int> f_s = get_first_second(stack);
+        if (f_s.first > f_s.second) {
+            return jump_index;
+        }
+        return -1;
+    }
+};
+
+class JaeCommand : public JmpCommand {
+private:
+    CommandName name = CommandName::JAE;
+    int jump_index = -1;
+public:
+    int get_index(stack_namespace::Stack<int> &stack) const override {
+        std::pair<int, int> f_s = get_first_second(stack);
+        if (f_s.first >= f_s.second) {
+            return jump_index;
+        }
+        return -1;
+    }
+};
+
+class JbCommand : public JmpCommand {
+private:
+    CommandName name = CommandName::JB;
+    int jump_index = -1;
+public:
+    int get_index(stack_namespace::Stack<int> &stack) const override {
+        std::pair<int, int> f_s = get_first_second(stack);
+        if (f_s.first < f_s.second) {
+            return jump_index;
+        }
+        return -1;
+    }
+};
+
+class JbeCommand : public JmpCommand {
+private:
+    CommandName name = CommandName::JBE;
+    int jump_index = -1;
+public:
+    int get_index(stack_namespace::Stack<int> &stack) const override {
+        std::pair<int, int> f_s = get_first_second(stack);
+        if (f_s.first <= f_s.second) {
+            return jump_index;
+        }
+        return -1;
+    }
+};
+
 #endif

@@ -13,7 +13,14 @@ enum class CommandName {
     MUL,
     DIV,
     OUT,
-    IN
+    IN,
+    JMP,
+    JEQ,
+    JNE,
+    JA,
+    JAE,
+    JB,
+    JBE
 };
 
 #endif
