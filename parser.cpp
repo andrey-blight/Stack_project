@@ -4,8 +4,35 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <set>
 #include "enum_commands.h"
 
+
+std::map<std::string, int> get_labels(std::map<std::string, CommandName> &mapping, const std::string &filename) {
+    std::map<std::string, int> label_line;
+    std::set<CommandName> zero_arg = {CommandName::BEGIN, CommandName::END, CommandName::POP, CommandName::ADD,
+                                      CommandName::SUB, CommandName::MUL, CommandName::DIV, CommandName::OUT,
+                                      CommandName::IN};
+
+    std::string command_name;
+    std::ifstream input(filename);
+    int count_commands = 0;
+    while (input >> command_name) {
+        if (mapping.find(command_name) == mapping.end()) {
+            label_line[command_name] = count_commands;
+            continue;
+        }
+        CommandName cmd = mapping[command_name];
+        if (zero_arg.find(cmd) != zero_arg.end()) {
+            ++count_commands;
+        } else {
+            std::string val;
+            input >> val;
+            ++count_commands;
+        }
+    }
+    return label_line;
+}
 
 std::vector<BaseCommand *> parse_commands(const std::string &filename) {
 
@@ -22,6 +49,8 @@ std::vector<BaseCommand *> parse_commands(const std::string &filename) {
     mapping["DIB"] = CommandName::DIV;
     mapping["OUT"] = CommandName::OUT;
     mapping["IN"] = CommandName::IN;
+
+    std::map<std::string, int> label_line = get_labels(mapping, filename);
 
     std::vector<BaseCommand *> commands;
     std::string command_name;
