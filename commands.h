@@ -229,8 +229,10 @@ public:
 class JmpCommand : public BaseCommand {
 private:
     CommandName name = CommandName::JMP;
-    int jump_index = -1;
+    int jump_index;
 public:
+    explicit JmpCommand(int jump_index) : jump_index(jump_index) {}
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {};
@@ -258,6 +260,8 @@ private:
     CommandName name = CommandName::JEQ;
     int jump_index = -1;
 public:
+    explicit JeqCommand(int i) : JmpCommand(i) {}
+
     int get_index(stack_namespace::Stack<int> &stack) const override {
         std::pair<int, int> f_s = get_first_second(stack);
         if (f_s.first == f_s.second) {
@@ -272,6 +276,8 @@ private:
     CommandName name = CommandName::JNE;
     int jump_index = -1;
 public:
+    explicit JneCommand(int i) : JmpCommand(i) {}
+
     int get_index(stack_namespace::Stack<int> &stack) const override {
         std::pair<int, int> f_s = get_first_second(stack);
         if (f_s.first != f_s.second) {
@@ -286,6 +292,8 @@ private:
     CommandName name = CommandName::JA;
     int jump_index = -1;
 public:
+    explicit JaCommand(int i) : JmpCommand(i) {}
+
     int get_index(stack_namespace::Stack<int> &stack) const override {
         std::pair<int, int> f_s = get_first_second(stack);
         if (f_s.first > f_s.second) {
@@ -300,6 +308,8 @@ private:
     CommandName name = CommandName::JAE;
     int jump_index = -1;
 public:
+    explicit JaeCommand(int i) : JmpCommand(i) {}
+
     int get_index(stack_namespace::Stack<int> &stack) const override {
         std::pair<int, int> f_s = get_first_second(stack);
         if (f_s.first >= f_s.second) {
@@ -314,6 +324,8 @@ private:
     CommandName name = CommandName::JB;
     int jump_index = -1;
 public:
+    explicit JbCommand(int i) : JmpCommand(i) {}
+
     int get_index(stack_namespace::Stack<int> &stack) const override {
         std::pair<int, int> f_s = get_first_second(stack);
         if (f_s.first < f_s.second) {
@@ -328,6 +340,8 @@ private:
     CommandName name = CommandName::JBE;
     int jump_index = -1;
 public:
+    explicit JbeCommand(int i) : JmpCommand(i) {}
+
     int get_index(stack_namespace::Stack<int> &stack) const override {
         std::pair<int, int> f_s = get_first_second(stack);
         if (f_s.first <= f_s.second) {

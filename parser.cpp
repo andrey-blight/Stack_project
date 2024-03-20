@@ -6,7 +6,7 @@
 #include <map>
 #include <set>
 #include "enum_commands.h"
-
+#include <stdexcept>
 
 std::map<std::string, int> get_labels(std::map<std::string, CommandName> &mapping, const std::string &filename) {
     std::map<std::string, int> label_line;
@@ -48,12 +48,20 @@ std::vector<BaseCommand *> parse_commands(const std::string &filename) {
     mapping["MUL"] = CommandName::MUL;
     mapping["DIB"] = CommandName::DIV;
     mapping["OUT"] = CommandName::OUT;
-    mapping["IN"] = CommandName::IN;
+    mapping["JMP"] = CommandName::JMP;
+    mapping["JEQ"] = CommandName::JEQ;
+    mapping["JNE"] = CommandName::JNE;
+    mapping["JA"] = CommandName::JA;
+    mapping["JAE"] = CommandName::JAE;
+    mapping["JB"] = CommandName::JB;
+    mapping["JBE"] = CommandName::JBE;
+
 
     std::map<std::string, int> label_line = get_labels(mapping, filename);
 
     std::vector<BaseCommand *> commands;
     std::string command_name;
+    std::string lbl;
     std::ifstream input(filename);
     while (input >> command_name) {
         switch (mapping[command_name]) {
@@ -98,6 +106,55 @@ std::vector<BaseCommand *> parse_commands(const std::string &filename) {
                 break;
             case CommandName::IN:
                 commands.push_back(new InCommand());
+                break;
+            case CommandName::JMP:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JmpCommand(label_line[lbl]));
+                break;
+            case CommandName::JEQ:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JeqCommand(label_line[lbl]));
+                break;
+            case CommandName::JNE:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JneCommand(label_line[lbl]));
+                break;
+            case CommandName::JA:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JaCommand(label_line[lbl]));
+                break;
+            case CommandName::JAE:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JaeCommand(label_line[lbl]));
+                break;
+            case CommandName::JB:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JbCommand(label_line[lbl]));
+                break;
+            case CommandName::JBE:
+                input >> lbl;
+                if (label_line.find(lbl) == label_line.end()) {
+                    throw std::invalid_argument("label not find");
+                }
+                commands.push_back(new JbeCommand(label_line[lbl]));
                 break;
         }
     }
