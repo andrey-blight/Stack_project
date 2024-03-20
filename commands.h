@@ -12,6 +12,8 @@ private:
 public:
     virtual ~BaseCommand() = default;
 
+    virtual int get_index(stack_namespace::Stack<int> &stack) const = 0;
+
     virtual void run_command(stack_namespace::Stack<int> &stack) const = 0;
 
     virtual void run_command(stack_namespace::Stack<int> &stack, int *reg) const = 0;
@@ -23,6 +25,8 @@ class BeginCommand : public BaseCommand {
 private:
     CommandName name = CommandName::BEGIN;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
@@ -36,6 +40,8 @@ class EndCommand : public BaseCommand {
 private:
     CommandName name = CommandName::END;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
@@ -52,6 +58,8 @@ private:
 public:
     explicit PushCommand(int val) : val(val) {}
 
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack) const override {
         stack.push(val);
     };
@@ -67,6 +75,7 @@ class PopCommand : public BaseCommand {
 private:
     CommandName name = CommandName::POP;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
         stack.pop();
@@ -84,6 +93,8 @@ private:
     CommandName name = CommandName::PUSHR;
     int reg_index;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     explicit PushrCommand(int reg_index) : reg_index(reg_index) {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {}
@@ -102,6 +113,8 @@ private:
     CommandName name = CommandName::POPR;
     int reg_index;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     explicit PoprCommand(int reg_index) : reg_index(reg_index) {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {}
@@ -120,6 +133,8 @@ class AddCommand : public BaseCommand {
 private:
     CommandName name = CommandName::ADD;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -139,6 +154,8 @@ class SubCommand : public BaseCommand {
 private:
     CommandName name = CommandName::SUB;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -158,6 +175,8 @@ class MulCommand : public BaseCommand {
 private:
     CommandName name = CommandName::MUL;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -177,6 +196,8 @@ class DivCommand : public BaseCommand {
 private:
     CommandName name = CommandName::DIV;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -196,6 +217,8 @@ class OutCommand : public BaseCommand {
 private:
     CommandName name = CommandName::OUT;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -213,6 +236,8 @@ class InCommand : public BaseCommand {
 private:
     CommandName name = CommandName::IN;
 public:
+    int get_index(stack_namespace::Stack<int> &stack) const override { return -1; };
+
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -246,7 +271,7 @@ public:
         return f_s;
     }
 
-    virtual int get_index(stack_namespace::Stack<int> &stack) const {
+    int get_index(stack_namespace::Stack<int> &stack) const override {
         return jump_index;
     }
 
