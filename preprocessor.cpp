@@ -8,15 +8,15 @@ void run_program(Memory &memory, const std::string &filename) {
     bool started = false;
     for (auto el: commands) {
         if (!started) {
-            if (el->get_name() == "BEGIN") {
+            if (el->get_name() == CommandName::BEGIN) {
                 started = true;
             }
             continue;
         }
-        if (el->get_name() == "END") {
+        if (el->get_name() == CommandName::END) {
             break;
         }
-        if (el->get_name() == "PUSHR" || el->get_name() == "POPR") {
+        if (el->get_name() == CommandName::PUSHR || el->get_name() == CommandName::POPR) {
             el->run_command(memory.get_stack(), memory.get_register());
         } else {
             el->run_command(memory.get_stack());

@@ -2,12 +2,13 @@
 #define STACK_PROJECT_COMMANDS_H
 
 #include "include/Stack.h"
+#include "enum_commands.h"
 #include <string>
 #include <iostream>
 
 class BaseCommand {
 private:
-    std::string name;
+    CommandName name = CommandName::BEGIN;
 public:
     virtual ~BaseCommand() = default;
 
@@ -15,38 +16,38 @@ public:
 
     virtual void run_command(stack_namespace::Stack<int> &stack, int *reg) const = 0;
 
-    [[nodiscard]] virtual std::string get_name() const = 0;
+    [[nodiscard]] virtual CommandName get_name() const = 0;
 };
 
 class BeginCommand : public BaseCommand {
 private:
-    std::string name = "BEGIN";
+    CommandName name = CommandName::BEGIN;
 public:
     void run_command(stack_namespace::Stack<int> &stack) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class EndCommand : public BaseCommand {
 private:
-    std::string name = "END";
+    CommandName name = CommandName::END;
 public:
     void run_command(stack_namespace::Stack<int> &stack) const override {}
 
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class PushCommand : public BaseCommand {
 private:
-    std::string name = "PUSH";
+    CommandName name = CommandName::PUSH;
     int val;
 public:
     explicit PushCommand(int val) : val(val) {}
@@ -57,14 +58,14 @@ public:
 
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class PopCommand : public BaseCommand {
 private:
-    std::string name = "POP";
+    CommandName name = CommandName::POP;
 public:
 
     void run_command(stack_namespace::Stack<int> &stack) const override {
@@ -73,14 +74,14 @@ public:
 
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class PushrCommand : public BaseCommand {
 private:
-    std::string name = "PUSHR";
+    CommandName name = CommandName::PUSHR;
     int reg_index;
 public:
     explicit PushrCommand(int reg_index) : reg_index(reg_index) {}
@@ -91,14 +92,14 @@ public:
         stack.push(reg[reg_index]);
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class PoprCommand : public BaseCommand {
 private:
-    std::string name = "POPR";
+    CommandName name = CommandName::POPR;
     int reg_index;
 public:
     explicit PoprCommand(int reg_index) : reg_index(reg_index) {}
@@ -110,14 +111,14 @@ public:
         stack.pop();
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class AddCommand : public BaseCommand {
 private:
-    std::string name = "ADD";
+    CommandName name = CommandName::ADD;
 public:
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
@@ -129,14 +130,14 @@ public:
         stack.push(first + second);
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class SubCommand : public BaseCommand {
 private:
-    std::string name = "SUB";
+    CommandName name = CommandName::SUB;
 public:
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
@@ -148,14 +149,14 @@ public:
         stack.push(first - second);
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class MulCommand : public BaseCommand {
 private:
-    std::string name = "MUL";
+    CommandName name = CommandName::MUL;
 public:
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
@@ -167,14 +168,14 @@ public:
         stack.push(first * second);
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class DivCommand : public BaseCommand {
 private:
-    std::string name = "DIV";
+    CommandName name = CommandName::DIV;
 public:
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
@@ -186,14 +187,14 @@ public:
         stack.push(first / second);
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]]  CommandName get_name() const override {
         return name;
     }
 };
 
 class OutCommand : public BaseCommand {
 private:
-    std::string name = "OUT";
+    CommandName name = CommandName::OUT;
 public:
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
@@ -203,14 +204,14 @@ public:
         std::cout << val << "\n";
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
 
 class InCommand : public BaseCommand {
 private:
-    std::string name = "IN";
+    CommandName name = CommandName::IN;
 public:
     void run_command(stack_namespace::Stack<int> &stack, int *reg) const override {}
 
@@ -220,7 +221,7 @@ public:
         stack.push(val);
     };
 
-    [[nodiscard]] std::string get_name() const override {
+    [[nodiscard]] CommandName get_name() const override {
         return name;
     }
 };
