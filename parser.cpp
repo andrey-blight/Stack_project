@@ -64,6 +64,9 @@ std::vector<BaseCommand *> parse_commands(const std::string &filename) {
     std::string lbl;
     std::ifstream input(filename);
     while (input >> command_name) {
+        if (mapping.find(command_name) == mapping.end()) {
+            continue;
+        }
         switch (mapping[command_name]) {
             case CommandName::BEGIN:
                 commands.push_back(new BeginCommand());
